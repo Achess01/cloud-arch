@@ -4,13 +4,17 @@ import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { ObjectIdSchema } from '@feathersjs/typebox'
 import { passwordHash } from '@feathersjs/authentication-local'
 import { dataValidator, queryValidator } from '../../validators.js'
+import { setDefault } from '../../utils/setDefault.js'
 
 // Main data model schema
 export const userSchema = Type.Object(
   {
     _id: ObjectIdSchema(),
-    email: Type.String(),
-    password: Type.Optional(Type.String())
+    email: Type.String({ format: 'email' }),
+    password: Type.Optional(Type.String()),
+    first_name: Type.String(),
+    last_name: Type.String(),
+    is_admin: Type.Optional(Type.Boolean())
   },
   { $id: 'User', additionalProperties: false }
 )
@@ -23,12 +27,17 @@ export const userExternalResolver = resolve({
 })
 
 // Schema for creating new entries
-export const userDataSchema = Type.Pick(userSchema, ['email', 'password'], {
-  $id: 'UserData'
-})
+export const userDataSchema = Type.Pick(
+  userSchema,
+  ['email', 'password', 'first_name', 'last_name', 'is_admin'],
+  {
+    $id: 'UserData'
+  }
+)
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
-  password: passwordHash({ strategy: 'local' })
+  password: passwordHash({ strategy: 'local' }),
+  is_admin: setDefault(false)
 })
 
 // Schema for updating existing entries

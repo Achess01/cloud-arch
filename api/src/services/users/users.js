@@ -14,6 +14,8 @@ import {
 } from './users.schema.js'
 import { UserService, getOptions } from './users.class.js'
 
+import uniqueEmail from '../../hooks/uniqueEmail.js'
+
 export const userPath = 'users'
 export const userMethods = ['find', 'get', 'create', 'patch', 'remove']
 
@@ -44,7 +46,11 @@ export const user = (app) => {
       all: [schemaHooks.validateQuery(userQueryValidator), schemaHooks.resolveQuery(userQueryResolver)],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(userDataValidator), schemaHooks.resolveData(userDataResolver)],
+      create: [
+        schemaHooks.validateData(userDataValidator),
+        schemaHooks.resolveData(userDataResolver),
+        uniqueEmail()
+      ],
       patch: [schemaHooks.validateData(userPatchValidator), schemaHooks.resolveData(userPatchResolver)],
       remove: []
     },

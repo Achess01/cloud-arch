@@ -52,6 +52,7 @@
     "@feathersjs/transport-commons": "^5.0.11",
     "@feathersjs/typebox": "^5.0.11",
     "compression": "^1.7.4",
+    "feathers-hooks-common": "^8.1.1",
     "mongodb": "^6.2.0",
     "winston": "^3.11.0"
   },
