@@ -9,7 +9,6 @@ export default function (options = {}) {
     const email = items.email
 
     const existingUser = await context.app.service('users').find({ query: { email } })
-    console.log(existingUser);
 
     if (existingUser.data.length) {
       throw new BadRequest('El correo electrónico ya está en uso')
