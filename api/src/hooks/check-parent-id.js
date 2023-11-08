@@ -1,6 +1,24 @@
 import { BadRequest } from '@feathersjs/errors'
 import { checkContext, getItems } from 'feathers-hooks-common'
 
+const isCurrentChild = async ({ service, newParentId, currentId }) => {
+  const children = await service.find({
+    query: {
+      parent_id: currentId
+    }
+  })
+
+  if (!children.total) return false
+  if (children.data.some((dir) => JSON.stringify(dir._id) === JSON.stringify(newParentId))) return true
+  for (let child of children.data) {
+    const value = await isCurrentChild({ service, newParentId, currentId: child._id })
+    if (value) {
+      return true
+    }
+  }
+  return false
+}
+
 export const checkParentId =
   (options = {}) =>
   async (context) => {
@@ -15,7 +33,8 @@ export const checkParentId =
 
     if (JSON.stringify(parent_id) === JSON.stringify(instance.parent_id)) return context
 
-    // let children = await service.find() TODO: Search if the destiny directory (parent_id) is not children of current
+    if (await isCurrentChild({ service, newParentId: parent_id, currentId: id }))
+      throw new BadRequest('No se puede mover el directorio a esta dirección')
 
-    throw new BadRequest('No se puede mover el directorio a esta dirección')
+    return context
   }

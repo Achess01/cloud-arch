@@ -156,6 +156,8 @@ sketch
 
 ### VisualStudioCode ###
 .vscode/*
+api/.vscode/*
+client/.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json

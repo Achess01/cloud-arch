@@ -14,6 +14,9 @@ import {
 } from './file.schema.js'
 import { FileService, getOptions } from './file.class.js'
 
+import { checkDirectoryName } from '../../hooks/check-directory-name.js'
+import { validateExtensions } from '../../hooks/validate-extensions.js'
+
 export const filePath = 'file'
 export const fileMethods = ['find', 'get', 'create', 'patch', 'remove']
 
@@ -42,8 +45,18 @@ export const file = (app) => {
       all: [schemaHooks.validateQuery(fileQueryValidator), schemaHooks.resolveQuery(fileQueryResolver)],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(fileDataValidator), schemaHooks.resolveData(fileDataResolver)],
-      patch: [schemaHooks.validateData(filePatchValidator), schemaHooks.resolveData(filePatchResolver)],
+      create: [
+        schemaHooks.validateData(fileDataValidator),
+        schemaHooks.resolveData(fileDataResolver),
+        validateExtensions(),
+        checkDirectoryName({ isFile: true })
+      ],
+      patch: [
+        schemaHooks.validateData(filePatchValidator),
+        schemaHooks.resolveData(filePatchResolver),
+        validateExtensions(),
+        checkDirectoryName({ isFile: true })
+      ],
       remove: []
     },
     after: {
