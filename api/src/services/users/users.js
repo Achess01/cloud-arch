@@ -15,6 +15,7 @@ import {
 import { UserService, getOptions } from './users.class.js'
 
 import uniqueEmail from '../../hooks/uniqueEmail.js'
+import { authenticateAdminUser } from '../../hooks/authenticate-admin-user.js'
 
 export const userPath = 'users'
 export const userMethods = ['find', 'get', 'create', 'patch', 'remove']
@@ -37,7 +38,7 @@ export const user = (app) => {
       all: [schemaHooks.resolveExternal(userExternalResolver), schemaHooks.resolveResult(userResolver)],
       find: [authenticate('jwt')],
       get: [authenticate('jwt')],
-      create: [],
+      create: [authenticate('jwt'), authenticateAdminUser()],
       update: [authenticate('jwt')],
       patch: [authenticate('jwt')],
       remove: [authenticate('jwt')]

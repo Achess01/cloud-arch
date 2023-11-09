@@ -1,1 +1,2 @@
-export { Login } from "src/users/Login";
+export { Login } from "./Login";
+export { Home } from "./Home";

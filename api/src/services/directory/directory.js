@@ -15,6 +15,8 @@ import {
 import { DirectoryService, getOptions } from './directory.class.js'
 import { checkDirectoryName } from '../../hooks/check-directory-name.js'
 import { checkParentId } from '../../hooks/check-parent-id.js'
+import { authenticateFolderOwner } from '../../hooks/authenticate-folder-owner.js'
+import { populateDirectoryPath } from '../../hooks/populate-directory-path.js'
 
 export const directoryPath = 'directory'
 export const directoryMethods = ['find', 'get', 'create', 'patch', 'remove']
@@ -61,7 +63,8 @@ export const directory = (app) => {
       remove: []
     },
     after: {
-      all: []
+      all: [],
+      get: [authenticateFolderOwner(), populateDirectoryPath()]
     },
     error: {
       all: []

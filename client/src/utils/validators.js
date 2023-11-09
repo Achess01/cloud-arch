@@ -6,6 +6,20 @@ export const composeValidators =
       undefined,
     );
 
+function regexValidator({ regex, message }) {
+  return function (value) {
+    if (!regex.test(value)) {
+      return message;
+    }
+  };
+}
+
+export function emailRegexValidator(value) {
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  const message = "Email inválido";
+  return regexValidator({ regex, message })(value);
+}
+
 export function usernameRegexValidator(value) {
   const regex = /^[a-zA-Z][a-zA-Z0-9]{4,12}$/;
 

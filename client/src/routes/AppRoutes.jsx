@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router";
 import { Link, Navigate } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
-import { Login } from "src/users";
+import { Login, Home } from "src/users";
 
 
 import { useUser } from "src/utils/useUser";
@@ -19,8 +19,10 @@ export const AppRoutes = () => {
   const user = useUser();
   return (
     <Routes>
-      <Route element={<NoRoleUser />} path="/" exact />
       <Route element={user ? <Navigate to="/" /> : <Login />} path="/login" exact />
+      <Route element={<PrivateRoutes />} >
+        <Route element={<Home />} path="/" exact />
+      </Route>
     </Routes>
   );
 };

@@ -8,7 +8,7 @@ export const LogOutButton = () => {
   const dispatch = useDispatch();
   const onClick = () => {
     dispatch(logOut());
-    app.logout()
+    app.logout({ strategy: 'jwt' })
     navigate('/login');
   };
   return (

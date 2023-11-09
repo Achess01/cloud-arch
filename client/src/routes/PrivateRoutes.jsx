@@ -6,7 +6,7 @@ import { useUser } from "src/utils/useUser";
 const PrivateRoutes = ({ admin = false }) => {
   const user = useUser();
 
-  if (!user || !user.token) return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/login" />;
 
   return !admin || user.is_admin ? (
     <>

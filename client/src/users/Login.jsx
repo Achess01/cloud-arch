@@ -6,6 +6,7 @@ import { SmallContainer } from "src/components/Container";
 import { InputField } from "src/components/AppInput";
 import { login } from "src/store/user";
 import logo from "src/assets/logo.png";
+import { emailRegexValidator } from "src/utils/validators";
 
 const validateForm = (values) => validate(values, {
   email: validators.exists()("Ingrese su usuario"),
@@ -31,8 +32,7 @@ export const Login = () => {
     >
       <div className="login-background--blur" />
       <SmallContainer loading={status === "loading"} className="container-login">
-        <div className="d-flex flex-column justify-content-center align-items-center p-4 col-10 col-md-6 col-lg-4 mx-auto rounded bg-white shadow" style={{
-        }}>
+        <div className="d-flex flex-column justify-content-center align-items-center p-4 col-10 col-md-6 col-lg-4 mx-auto rounded bg-white shadow">
           <img src={logo} alt="logo" width="200px" />
           <Form
             onSubmit={onSubmit}
@@ -45,8 +45,9 @@ export const Login = () => {
                       name="email"
                       render={InputField}
                       type="text"
-                      placeholder="usuario1234"
-                      label="Usuario"
+                      placeholder="email@example.com"
+                      label="Email"
+                      validate={emailRegexValidator}
                     />
                   </div>
                 </div>
