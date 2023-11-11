@@ -33,7 +33,7 @@ export const Login = () => {
       <div className="login-background--blur" />
       <SmallContainer loading={status === "loading"} className="container-login">
         <div className="d-flex flex-column justify-content-center align-items-center p-4 col-10 col-md-6 col-lg-4 mx-auto rounded bg-white shadow">
-          <img src={logo} alt="logo" width="200px" />
+          <img src={logo} alt="logo" width="200px" className="logo-cloud-arch" />
           <Form
             onSubmit={onSubmit}
             validate={validateForm}
@@ -67,7 +67,7 @@ export const Login = () => {
                 ) : null}
                 <div className="d-flex align-items-center justify-content-center">
                   <Button
-                    color="dark"
+                    color="primary"
                     type="submit"
                     disabled={submitting}
                     block

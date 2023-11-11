@@ -17,6 +17,7 @@ import { checkDirectoryName } from '../../hooks/check-directory-name.js'
 import { checkParentId } from '../../hooks/check-parent-id.js'
 import { authenticateFolderOwner } from '../../hooks/authenticate-folder-owner.js'
 import { populateDirectoryPath } from '../../hooks/populate-directory-path.js'
+import { filterByUser } from '../../hooks/filter-by-user.js'
 
 export const directoryPath = 'directory'
 export const directoryMethods = ['find', 'get', 'create', 'patch', 'remove']
@@ -47,7 +48,7 @@ export const directory = (app) => {
         schemaHooks.validateQuery(directoryQueryValidator),
         schemaHooks.resolveQuery(directoryQueryResolver)
       ],
-      find: [],
+      find: [filterByUser()],
       get: [],
       create: [
         schemaHooks.validateData(directoryDataValidator),

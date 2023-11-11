@@ -9,3 +9,10 @@ export const SmallContainer = ({ children, className, loading = false }) => {
     </div>
   );
 };
+
+
+export const FluidContainer = ({ children, className }) => (
+  <div className={`container-fluid ${className ? className : ""}`}>
+    {children}
+  </div>
+);

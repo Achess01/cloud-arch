@@ -26,6 +26,7 @@ export const checkDirectoryName =
         name,
         _id: { $ne: context.id },
         parent_id: parent_id ?? { $exists: false },
+        owner: items.owner,
         ...queryFile
       }
     })
@@ -38,6 +39,7 @@ export const checkDirectoryName =
           name: { $regex: name.replaceAll('(', `\\(`).replaceAll(')', `\\)`) },
           _id: { $ne: context.id },
           parent_id: parent_id ?? { $exists: false },
+          owner: items.owner,
           ...queryFile
         }
       })

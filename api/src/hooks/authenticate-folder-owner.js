@@ -10,10 +10,10 @@ export const authenticateFolderOwner =
     const instance = context.result
 
     const {
-      owner: { _id }
+      owner
     } = instance
 
-    if (JSON.stringify(user._id) !== JSON.stringify(_id) && (!instance.is_trash || !user.is_admin))
+    if (JSON.stringify(user._id) !== JSON.stringify(owner) && (!instance.is_trash || !user.is_admin))
       throw new BadRequest('Usuario no permitido para este directorio')
 
     return context

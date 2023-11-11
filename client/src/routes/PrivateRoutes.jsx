@@ -9,10 +9,14 @@ const PrivateRoutes = ({ admin = false }) => {
   if (!user) return <Navigate to="/login" />;
 
   return !admin || user.is_admin ? (
-    <>
+    <div className="d-flex">
       <NavBar />
-      <Outlet />
-    </>
+      <div style={{
+        width: "calc(100vw - 250px)"
+      }}>
+        <Outlet />
+      </div>
+    </div>
   ) : (
     <Navigate to="/" />
   );

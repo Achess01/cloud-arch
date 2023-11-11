@@ -4,7 +4,6 @@ import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { ObjectIdSchema } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
 import { setDefault } from '../../utils/setDefault.js'
-import { userSchema } from '../users/users.schema.js'
 
 // Main data model schema
 export const directorySchema = Type.Object(
@@ -14,7 +13,7 @@ export const directorySchema = Type.Object(
     createdAt: Type.Number(),
     updatedAt: Type.Number(),
     is_trash: Type.Optional(Type.Boolean()),
-    owner: Type.Optional(Type.Ref(userSchema)),
+    owner: Type.Optional(ObjectIdSchema()),
     parent_id: Type.Optional(ObjectIdSchema())
   },
   { $id: 'Directory', additionalProperties: false }
@@ -40,7 +39,7 @@ export const directoryDataResolver = resolve({
   owner: virtual(async (_message, context) => {
     const user = { ...context.params.user }
     delete user.password
-    return user
+    return user._id
   })
 })
 
@@ -56,7 +55,13 @@ export const directoryPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const directoryQueryProperties = Type.Pick(directorySchema, ['_id', 'name', 'parent_id'])
+export const directoryQueryProperties = Type.Pick(directorySchema, [
+  '_id',
+  'name',
+  'parent_id',
+  'owner',
+  'is_trash'
+])
 export const directoryQuerySchema = Type.Intersect(
   [
     querySyntax(directoryQueryProperties, {

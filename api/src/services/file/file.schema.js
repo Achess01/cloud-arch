@@ -3,7 +3,6 @@ import { resolve, virtual } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { ObjectIdSchema } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
-import { userSchema } from '../users/users.schema.js'
 import { setDefault } from '../../utils/setDefault.js'
 // Main data model schema
 export const fileSchema = Type.Object(
@@ -15,12 +14,12 @@ export const fileSchema = Type.Object(
     createdAt: Type.Number(),
     updatedAt: Type.Number(),
     parent_id: Type.Optional(ObjectIdSchema()),
-    owner: Type.Optional(Type.Ref(userSchema)),
+    owner: Type.Optional(ObjectIdSchema()),
     is_trash: Type.Optional(Type.Boolean()),
 
     // For shared files
     is_shared: Type.Optional(Type.Boolean()),
-    shared_by: Type.Optional(Type.Ref(userSchema)),
+    shared_by: Type.Optional(ObjectIdSchema()),
     shared_at: Type.Optional(Type.Number())
   },
   { $id: 'File', additionalProperties: false }
@@ -50,7 +49,7 @@ export const fileDataResolver = resolve({
   owner: virtual(async (_message, context) => {
     const user = { ...context.params.user }
     delete user.password
-    return user
+    return user._id
   })
 })
 
@@ -62,7 +61,7 @@ export const filePatchValidator = getValidator(filePatchSchema, dataValidator)
 export const filePatchResolver = resolve({})
 
 // Schema for allowed query properties
-export const fileQueryProperties = Type.Pick(fileSchema, ['_id', 'name', 'parent_id', 'extension'])
+export const fileQueryProperties = Type.Pick(fileSchema, ['_id', 'name', 'parent_id', 'extension', 'is_trash'])
 export const fileQuerySchema = Type.Intersect(
   [
     querySyntax(fileQueryProperties, {
