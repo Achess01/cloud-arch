@@ -1,11 +1,11 @@
 import Swal from "sweetalert2";
 
 export const handleError = (error, title) => {
-  if (error.response) {
+  if (error.message) {
     Swal.fire({
       icon: "error",
       title,
-      text: JSON.stringify(error.response.data),
+      text: error.message,
     });
   } else {
     Swal.fire({

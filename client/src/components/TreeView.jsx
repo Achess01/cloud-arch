@@ -1,9 +1,12 @@
 import { useState } from "react";
 import TreeView from "react-accessible-treeview";
 import { Button } from "reactstrap";
+import { useNavigate } from "react-router";
 
 
-export function DirectoryTreeView({ loadChildren = async () => { }, name = "", classNameContainer }) {
+export function DirectoryTreeView({ loadChildren = async () => { }, name = "", classNameContainer, path = "/" }) {
+
+  const navigate = useNavigate();
 
   const [data, setData] = useState(
     [
@@ -95,34 +98,9 @@ export function DirectoryTreeView({ loadChildren = async () => { }, name = "", c
                   <FileIcon extension={"html"} />
                 )}
                 {element.name}
-
-                {/* {!isBranch ? (<>
-                  <Button color="link" onClick={(e) => {
-                    e.stopPropagation();
-                  }}><i className="bi bi-pen-fill" /></Button>
-
-                  <Button color="link" onClick={(e) => {
-                    e.stopPropagation();
-                  }}><i className="bi bi-copy" /></Button>
-
-                  <Button color="link" onClick={(e) => {
-                    e.stopPropagation();
-                  }}><i className="bi bi-share-fill" />
-                  </Button>
-
-
-                </>) : null}
-
                 <Button color="link" onClick={(e) => {
-                  e.stopPropagation();
-                }}><i className="bi bi-arrows-move" /></Button>
-
-                <Button color="link" onClick={(e) => {
-                  e.stopPropagation();
-                }}><i className="bi bi-trash-fill" /></Button> */}
-
-                <Button color="link" onClick={(e) => {
-                  // handleSelect(e)
+                  const fullPath = element.id !== -1 ? `${path}/${element.id}` : path
+                  navigate(fullPath)
                   e.stopPropagation();
                 }}><i className="bi bi-box-arrow-in-up-right" /></Button>
 

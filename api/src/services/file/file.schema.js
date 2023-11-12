@@ -32,7 +32,18 @@ export const fileExternalResolver = resolve({})
 // Schema for creating new entries
 export const fileDataSchema = Type.Pick(
   fileSchema,
-  ['name', 'is_trash', 'owner', 'parent_id', 'is_shared', 'shared_by', 'shared_at', 'extension', 'content'],
+  [
+    'name',
+    'is_trash',
+    'owner',
+    'parent_id',
+    'is_shared',
+    'shared_by',
+    'shared_at',
+    'extension',
+    'content',
+    'owner'
+  ],
   {
     $id: 'FileData'
   }
@@ -61,7 +72,15 @@ export const filePatchValidator = getValidator(filePatchSchema, dataValidator)
 export const filePatchResolver = resolve({})
 
 // Schema for allowed query properties
-export const fileQueryProperties = Type.Pick(fileSchema, ['_id', 'name', 'parent_id', 'extension', 'is_trash'])
+export const fileQueryProperties = Type.Pick(fileSchema, [
+  '_id',
+  'name',
+  'parent_id',
+  'extension',
+  'is_trash',
+  'is_shared',
+  'owner'
+])
 export const fileQuerySchema = Type.Intersect(
   [
     querySyntax(fileQueryProperties, {
