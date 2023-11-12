@@ -1,60 +1,40 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Form, Field } from 'react-final-form';
 import { validate, validators } from 'validate-redux-form';
-import { userService } from 'src/config/apiClient';
-import { shareItem } from '../actions';
-import { useUser } from 'src/utils/useUser';
-import { InputAsyncSelect } from 'src/components/AppInput';
+import { createDirectory } from '../actions';
+import { InputField } from 'src/components/AppInput';
+import { fileNameRegexValidator } from 'src/utils/validators';
 
 const validateForm = (values) => {
   return validate(values, {
-    user: validators.exists()("Campo requerido"),
+    name: validators.exists()("Campo requerido"),
   });
 }
 
-export const ShareElementModal = ({ toggle, isOpen, className = "", item }) => {
-
-  const user = useUser()
-
-  const getUsers = async (search) => {
-    try {
-      const result = await userService.find({
-        query: {
-          $limit: 50,
-          email: { $regex: search, $options: 'i' },
-          _id: { $ne: user._id }
-        }
-      })
-      return result.data.map(u => ({ ...u, label: u.email, key: u._id }))
-    } catch (error) {
-      return []
-    }
-  }
+export const DirectoryModal = ({ toggle, isOpen, className = "", loadData = () => { } }) => {
 
   return (
     <div>
       <Modal isOpen={isOpen} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>Compartir {item.name} {item.isFile ? `.${item.extension}` : ""}</ModalHeader>
+        <ModalHeader toggle={toggle}>Crear directorio</ModalHeader>
         <ModalBody>
           <Form
             validate={validateForm}
             onSubmit={(data) => {
-              const { key } = data.user;
-              shareItem({ from: user._id, to: key, file: item._id })
+              createDirectory(data, loadData)
               toggle()
             }}
             render={({ handleSubmit, form, submitting, values }) => (
               <div className="d-flex flex-column justify-content-center align-items-center col-12">
                 <form onSubmit={handleSubmit} className="w-100">
                   <div className="row mb-3">
-                    <div className="col-12 col-md-8">
+                    <div className="col-12">
                       <Field
-                        name='user'
-                        render={InputAsyncSelect}
-                        placeholder="Usuario..."
-                        label="Usuario"
-                        searchText="Buscar usuario"
-                        loadOptions={getUsers}
+                        name='name'
+                        render={InputField}
+                        placeholder="directorio"
+                        label="Directorio"
+                        validate={fileNameRegexValidator}
                       />
                     </div>
                   </div>
@@ -64,7 +44,7 @@ export const ShareElementModal = ({ toggle, isOpen, className = "", item }) => {
                     disabled={submitting}
                     className="w-25"
                   >
-                    Compartir
+                    Crear
                   </Button>
                 </form>
               </div>

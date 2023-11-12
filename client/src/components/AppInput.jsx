@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { NumericFormat } from "react-number-format";
 import Select from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
+import AsyncSelect from 'react-select/async';
 
 export const InputField = ({
   input,
@@ -191,6 +192,53 @@ export const InputAsyncCreatable = ({
         }}
         allowCreateWhileLoading={allowCreateWhileLoading}
         {...extraProps}
+      />
+      {invalid && <div className="invalid-feedback">{error}</div>}
+    </div>
+  );
+};
+
+
+export const InputAsyncSelect = ({
+  input,
+  disabled,
+  meta: { touched, error },
+  label = "",
+  labelClassNames = "",
+  searchText = "Buscar email",
+  loadOptions,
+  extraChange = null,
+  labelKey = "label",
+  valueKey = "value",
+}) => {
+
+
+  const invalid = touched && error;
+
+  return (
+    <div className="form-group">
+      <label
+        className={classNames("form-label", {
+          [labelClassNames]: labelClassNames,
+        })}
+      >
+        {label}
+      </label>
+      <AsyncSelect
+        disabled={disabled}
+        value={input.value}
+        valueKey={valueKey}
+        labelKey={labelKey}
+        defaultOptions
+        className={classNames({
+          "is-invalid": invalid,
+        })}
+        onChange={(e) => {
+          input.onChange(e);
+          if (extraChange) extraChange(e);
+        }}
+        searchPromptText={searchText}
+        loadOptions={loadOptions}
       />
       {invalid && <div className="invalid-feedback">{error}</div>}
     </div>

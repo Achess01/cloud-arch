@@ -32,3 +32,4 @@ app.use("directory", restClient.service("directory"), {
 
 export const directoryService = app.service("directory");
 export const fileService = app.service("file");
+export const userService = app.service("users");

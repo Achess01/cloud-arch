@@ -9,7 +9,7 @@ const chooseFileIcon = (extension) => {
   return null
 }
 
-export const Directory = ({ element, isFile = false, to = "", loadData = async () => { }, moveElement = () => { } }) => {
+export const Directory = ({ element, isFile = false, to = "", loadData = async () => { }, moveElement = () => { }, shareElement = () => { } }) => {
 
   return (
     <div className="d-flex align-items-center justify-content-between" role="button">
@@ -41,6 +41,7 @@ export const Directory = ({ element, isFile = false, to = "", loadData = async (
                   e.stopPropagation();
                 }}><PenIcon /></Button>
                 <Button color="link" onClick={(e) => {
+                  shareElement(element);
                   e.stopPropagation();
                 }}><ShareIcon />
                 </Button>
@@ -65,8 +66,8 @@ export const Directory = ({ element, isFile = false, to = "", loadData = async (
 
         {!element.is_trash ? (
           <Button color="link" onClick={(e) => {
-            e.stopPropagation();
             deleteItem(element, loadData)
+            e.stopPropagation();
           }}><TrashFillIcon /></Button>
         ) : null}
 

@@ -16,3 +16,4 @@ export const FolderIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-folde
 export const HtmlIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-filetype-html" className={className} />)
 export const TxtIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-filetype-txt" className={className} />)
 export const EyeFillIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-eye-fill" className={className} />)
+export const FileIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-file-earmark" className={className} />)

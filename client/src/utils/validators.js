@@ -20,6 +20,12 @@ export function emailRegexValidator(value) {
   return regexValidator({ regex, message })(value);
 }
 
+export function fileNameRegexValidator(value) {
+  const regex = /^[a-zA-Z0-9_-]+(\(\d+\))*$/;
+  const message = "Nombre no válido";
+  return regexValidator({ regex, message })(value);
+}
+
 export function usernameRegexValidator(value) {
   const regex = /^[a-zA-Z][a-zA-Z0-9]{4,12}$/;
 

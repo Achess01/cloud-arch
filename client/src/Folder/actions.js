@@ -25,7 +25,7 @@ export const deleteItem = ({ _id, name, extension, isFile }, cb) => {
           icon: "success",
           title: "Eliminado con éxito",
           showConfirmButton: false,
-          timer: 1500,
+          timer: 500,
         });
       } catch (error) {
         handleError(error, "Oops...");
@@ -66,7 +66,7 @@ export const moveItem = (item, newParentId, cb) => {
         Swal.fire({
           icon: "success",
           showConfirmButton: false,
-          timer: 1500,
+          timer: 1000,
         });
       } catch (error) {
         handleError(error, "Oops...");
@@ -80,6 +80,10 @@ export const moveItem = (item, newParentId, cb) => {
 export const shareItem = async ({ from, to, file }) => {
   try {
     const dataFile = await fileService.get(file);
+
+    delete dataFile._id;
+    delete dataFile.createdAt;
+    delete dataFile.updatedAt;
 
     await fileService.create({
       ...dataFile,
@@ -110,6 +114,22 @@ export const copyItem = async ({ _id, isFile }, cb) => {
       icon: "success",
       showConfirmButton: false,
       timer: 1500,
+    });
+  } catch (error) {
+    handleError(error, "Oops...");
+  } finally {
+    cb();
+  }
+};
+
+export const createDirectory = async (data, cb) => {
+  try {
+    await directoryService.create(data);
+
+    Swal.fire({
+      icon: "success",
+      showConfirmButton: false,
+      timer: 1000,
     });
   } catch (error) {
     handleError(error, "Oops...");
