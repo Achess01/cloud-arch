@@ -1,7 +1,7 @@
 import { Button } from "reactstrap"
 import { Link } from "react-router-dom"
 import { FolderIcon, HtmlIcon, TxtIcon, PenIcon, CopyIcon, ShareIcon, ArrowsMoveIcon, TrashFillIcon, EyeFillIcon } from "./Icons"
-import { deleteItem } from "src/Folder/actions"
+import { deleteItem, copyItem } from "src/Folder/actions"
 
 const chooseFileIcon = (extension) => {
   if (extension === "html") return <HtmlIcon className="pe-2" />
@@ -53,6 +53,7 @@ export const Directory = ({ element, isFile = false, to = "", loadData = async (
         {!element.is_shared && !element.is_trash ? (
           <>
             <Button color="link" onClick={(e) => {
+              copyItem(element, loadData)
               e.stopPropagation();
             }}><CopyIcon /></Button>
             <Button color="link" onClick={(e) => {

@@ -9,7 +9,7 @@ import { setDefault } from '../../utils/setDefault.js'
 export const directorySchema = Type.Object(
   {
     _id: ObjectIdSchema(),
-    name: Type.RegEx(/^[a-zA-Z0-9_-]+(\(\d+\))?$/),
+    name: Type.RegEx(/^[a-zA-Z0-9_-]+(\(\d+\))*$/),
     createdAt: Type.Number(),
     updatedAt: Type.Number(),
     is_trash: Type.Optional(Type.Boolean()),

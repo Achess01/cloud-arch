@@ -19,7 +19,7 @@ import { validateExtensions } from '../../hooks/validate-extensions.js'
 import { checkSharedTrash } from '../../hooks/check-shared-trash.js'
 
 export const filePath = 'file'
-export const fileMethods = ['find', 'get', 'create', 'patch', 'remove', 'update']
+export const fileMethods = ['find', 'get', 'create', 'patch', 'remove', 'update', 'duplicate']
 
 export * from './file.class.js'
 export * from './file.schema.js'

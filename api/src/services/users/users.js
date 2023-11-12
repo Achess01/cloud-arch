@@ -52,7 +52,11 @@ export const user = (app) => {
         schemaHooks.resolveData(userDataResolver),
         uniqueEmail()
       ],
-      patch: [schemaHooks.validateData(userPatchValidator), schemaHooks.resolveData(userPatchResolver)],
+      patch: [
+        schemaHooks.validateData(userPatchValidator),
+        schemaHooks.resolveData(userPatchResolver),
+        uniqueEmail()
+      ],
       remove: []
     },
     after: {

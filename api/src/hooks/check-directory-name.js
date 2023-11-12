@@ -22,6 +22,7 @@ export const checkDirectoryName =
     if (isFile) queryFile.extension = items.extension ?? instance.extension
 
     const existingItem = await context.service.find({
+      paginate: false,
       query: {
         name,
         _id: { $ne: context.id },
@@ -31,10 +32,11 @@ export const checkDirectoryName =
       }
     })
 
-    if (existingItem.total > 0) {
+    if (existingItem.length > 0) {
       let copyNumber = 1
       let newName = `${name}(${copyNumber})`
       const similarItems = await context.service.find({
+        paginate: false,
         query: {
           name: { $regex: name.replaceAll('(', `\\(`).replaceAll(')', `\\)`) },
           _id: { $ne: context.id },
@@ -44,7 +46,7 @@ export const checkDirectoryName =
         }
       })
 
-      while (similarItems.total > 0 && similarItems.data.some((item) => item.name === newName)) {
+      while (similarItems.length > 0 && similarItems.some((item) => item.name === newName)) {
         copyNumber++
         newName = `${name}(${copyNumber})`
       }

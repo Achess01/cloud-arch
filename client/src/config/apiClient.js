@@ -9,17 +9,26 @@ const options = {
 };
 export const app = feathers();
 
-const restClient = rest("http://localhost:3030");
-
-// Configure an AJAX library (see below) with that client
-app.configure(
-  restClient.fetch(window.fetch.bind(window), {
+const restClient = rest("http://localhost:3030").fetch(
+  window.fetch.bind(window),
+  {
     headers: {
       Authorization: window.localStorage.getItem(STORAGE_KEY),
     },
-  }),
+  },
 );
+
+// Configure an AJAX library (see below) with that client
+app.configure(restClient);
 app.configure(authentication(options));
+
+app.use("file", restClient.service("file"), {
+  methods: ["find", "get", "create", "update", "patch", "remove", "duplicate"],
+});
+
+app.use("directory", restClient.service("directory"), {
+  methods: ["find", "get", "create", "update", "patch", "remove", "duplicate"],
+});
 
 export const directoryService = app.service("directory");
 export const fileService = app.service("file");

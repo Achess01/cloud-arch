@@ -8,7 +8,7 @@ import { setDefault } from '../../utils/setDefault.js'
 export const fileSchema = Type.Object(
   {
     _id: ObjectIdSchema(),
-    name: Type.RegEx(/^[a-zA-Z0-9_-]+(\(\d+\))?$/),
+    name: Type.RegEx(/^[a-zA-Z0-9_-]+(\(\d+\))*$/),
     extension: Type.String(),
     content: Type.String(),
     createdAt: Type.Number(),
@@ -19,10 +19,10 @@ export const fileSchema = Type.Object(
 
     // For shared files
     is_shared: Type.Optional(Type.Boolean()),
-    shared_by: Type.Optional(ObjectIdSchema()),
-    shared_at: Type.Optional(Type.Number())
+    sharedBy: Type.Optional(ObjectIdSchema()),
+    sharedAt: Type.Optional(Type.Number())
   },
-  { $id: 'File', additionalProperties: true }
+  { $id: 'File', additionalProperties: false }
 )
 export const fileValidator = getValidator(fileSchema, dataValidator)
 export const fileResolver = resolve({})
@@ -38,8 +38,8 @@ export const fileDataSchema = Type.Pick(
     'owner',
     'parent_id',
     'is_shared',
-    'shared_by',
-    'shared_at',
+    'sharedBy',
+    'sharedAt',
     'extension',
     'content',
     'owner'

@@ -3,14 +3,15 @@ import { checkContext, getItems } from 'feathers-hooks-common'
 
 const isCurrentChild = async ({ service, newParentId, currentId }) => {
   const children = await service.find({
+    paginate: false,
     query: {
       parent_id: currentId
     }
   })
 
-  if (!children.total) return false
-  if (children.data.some((dir) => JSON.stringify(dir._id) === JSON.stringify(newParentId))) return true
-  for (let child of children.data) {
+  if (!children.length) return false
+  if (children.some((dir) => JSON.stringify(dir._id) === JSON.stringify(newParentId))) return true
+  for (let child of children) {
     const value = await isCurrentChild({ service, newParentId, currentId: child._id })
     if (value) {
       return true

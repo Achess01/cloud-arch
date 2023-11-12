@@ -20,8 +20,7 @@ export const deleteItem = ({ _id, name, extension, isFile }, cb) => {
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
-        const response = await service.remove(_id);
-        console.log(response);
+        await service.remove(_id);
         Swal.fire({
           icon: "success",
           title: "Eliminado con éxito",
@@ -76,4 +75,45 @@ export const moveItem = (item, newParentId, cb) => {
       }
     }
   });
+};
+
+export const shareItem = async ({ from, to, file }) => {
+  try {
+    const dataFile = await fileService.get(file);
+
+    await fileService.create({
+      ...dataFile,
+      owner: to,
+      is_shared: true,
+      sharedBy: from,
+    });
+
+    Swal.fire({
+      icon: "success",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } catch (error) {
+    handleError(error, "Oops...");
+  }
+};
+
+export const copyItem = async ({ _id, isFile }, cb) => {
+  try {
+    const service = isFile ? fileService : directoryService;
+
+    await service.duplicate({
+      id: _id,
+    });
+
+    Swal.fire({
+      icon: "success",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  } catch (error) {
+    handleError(error, "Oops...");
+  } finally {
+    cb();
+  }
 };
