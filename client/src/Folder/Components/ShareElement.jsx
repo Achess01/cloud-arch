@@ -39,8 +39,8 @@ export const ShareElementModal = ({ toggle, isOpen, className = "", item }) => {
           <Form
             validate={validateForm}
             onSubmit={(data) => {
-              const { key } = data.user;
-              shareItem({ from: user._id, to: key, file: item._id })
+              const { _id } = data.user;
+              shareItem({ from: user._id, to: _id, file: item._id })
               toggle()
             }}
             render={({ handleSubmit, form, submitting, values }) => (

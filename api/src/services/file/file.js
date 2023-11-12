@@ -17,6 +17,7 @@ import { FileService, getOptions } from './file.class.js'
 import { checkDirectoryName } from '../../hooks/check-directory-name.js'
 import { validateExtensions } from '../../hooks/validate-extensions.js'
 import { checkSharedTrash } from '../../hooks/check-shared-trash.js'
+import { filterByUser } from '../../hooks/filter-by-user.js'
 
 export const filePath = 'file'
 export const fileMethods = ['find', 'get', 'create', 'patch', 'remove', 'update', 'duplicate']
@@ -44,7 +45,7 @@ export const file = (app) => {
     },
     before: {
       all: [schemaHooks.validateQuery(fileQueryValidator), schemaHooks.resolveQuery(fileQueryResolver)],
-      find: [],
+      find: [filterByUser()],
       get: [],
       create: [
         schemaHooks.validateData(fileDataValidator),
