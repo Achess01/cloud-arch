@@ -137,3 +137,37 @@ export const createDirectory = async (data, cb) => {
     cb();
   }
 };
+
+export const createFile = async (data, cb) => {
+  try {
+    await fileService.create(data);
+
+    Swal.fire({
+      icon: "success",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  } catch (error) {
+    handleError(error, "Oops...");
+  } finally {
+    cb();
+  }
+};
+
+export const updateFile = async (id, data, cb) => {
+  console.log(data);
+  try {
+    const { name, content, extension } = data;
+    await fileService.patch(id, { name, content, extension });
+
+    Swal.fire({
+      icon: "success",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  } catch (error) {
+    handleError(error, "Oops...");
+  } finally {
+    cb();
+  }
+};

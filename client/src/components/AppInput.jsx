@@ -4,6 +4,39 @@ import { NumericFormat } from "react-number-format";
 import Select from "react-select";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import AsyncSelect from 'react-select/async';
+import CodeMirror from '@uiw/react-codemirror';
+// import { loadLanguage, langs } from '@uiw/codemirror-extensions-langs';
+
+export const InputFieldCode = ({
+  input,
+  meta: { touched, error },
+
+  placeholder = "...",
+  label = "",
+  labelClassNames = "",
+  readOnly = false,
+  // lang = "txt"
+}) => (
+  <div className="form-group">
+    <label
+      className={classNames("form-label", {
+        [labelClassNames]: labelClassNames,
+      })}
+    >
+      {label}
+    </label>
+    <CodeMirror
+      placeholder={placeholder}
+      className={classNames("form-control", { "is-invalid": touched && error })}
+      readOnly={readOnly}
+      height="400px"
+      // extensions={[langs.html()]}
+      {...input}
+    />
+    {error && touched && <span className="invalid-feedback">{error}</span>}
+  </div>
+);
+
 
 export const InputField = ({
   input,

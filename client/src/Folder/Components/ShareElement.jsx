@@ -25,7 +25,7 @@ export const ShareElementModal = ({ toggle, isOpen, className = "", item }) => {
           _id: { $ne: user._id }
         }
       })
-      return result.data.map(u => ({ ...u, label: u.email, key: u._id }))
+      return result.data.map(u => ({ ...u, label: u.email, value: u._id }))
     } catch (error) {
       return []
     }

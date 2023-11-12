@@ -9,7 +9,10 @@ export const Folder = ({
   previous = undefined,
   loadData = () => { },
   moveElement = () => { },
-  shareElement = () => { }
+  shareElement = () => { },
+  editFile = () => { },
+  viewFile = () => { },
+  isShared = false
 }) => {
   return (
     <Card
@@ -26,7 +29,8 @@ export const Folder = ({
 
         {items.map((item) => (
           <ListGroupItem key={item._id}>
-            <Directory element={item} isFile={item.isFile} to={`${basePath}/${item._id}`} loadData={loadData} moveElement={moveElement} shareElement={shareElement} />
+            <Directory element={item} isFile={item.isFile} to={`${basePath}/${item._id}`} loadData={loadData} moveElement={moveElement} shareElement={shareElement} editFile={editFile}
+              viewFile={viewFile} isShared={isShared} />
           </ListGroupItem>
         ))}
       </ListGroup>

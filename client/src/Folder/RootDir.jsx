@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router"
+import { Button } from "reactstrap";
 import { SmallContainer } from "src/components/Container";
 import { Folder } from "./Folder";
 import { directoryService, fileService } from "src/config/apiClient";
-import { FolderIcon, FolderOpenIcon, TxtIcon } from "src/components/Icons";
+import { FileIcon, FolderIcon, FolderOpenIcon, TxtIcon } from "src/components/Icons";
 import { MoveElementModal } from "./Components/MoveElement";
 import { ShareElementModal } from "./Components/ShareElement";
 import { DirectoryModal } from "./Components/DirectoryForm";
-import { Button } from "reactstrap";
+import { FileFormModal } from "./Components/FileForm";
 
 
 export const RootDir = () => {
@@ -27,6 +28,16 @@ export const RootDir = () => {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const toggleCreate = () => setIsOpenCreate(value => !value)
 
+  const [isOpenFile, setIsOpenFile] = useState(false);
+  const toggleFile = () => setIsOpenFile(value => !value)
+
+
+  const [isOpenEditFile, setIsOpenEditFile] = useState(false);
+  const toggleEditFile = () => setIsOpenEditFile(value => !value)
+
+  const [isOpenViewFile, setIsOpenViewFile] = useState(false);
+  const toggleViewFile = () => setIsOpenViewFile(value => !value)
+
   const moveElement = (element) => {
     setOpenModal(true)
     setCurrentElement(element)
@@ -34,6 +45,17 @@ export const RootDir = () => {
 
   const shareElement = (element) => {
     setIsOpenShare(true)
+    setCurrentElement(element)
+  }
+
+  const editFile = (element) => {
+    setIsOpenEditFile(true)
+    setCurrentElement(element)
+  }
+
+
+  const viewFile = (element) => {
+    setIsOpenViewFile(true)
     setCurrentElement(element)
   }
 
@@ -80,6 +102,8 @@ export const RootDir = () => {
 
   return (
     <SmallContainer loading={loading} className="my-5">
+      <FileFormModal toggle={toggleEditFile} isOpen={isOpenEditFile} loadData={() => loadData(id)} id={currentElement._id} edit={true} />
+      <FileFormModal toggle={toggleFile} isOpen={isOpenFile} loadData={() => loadData(id)} />
       <DirectoryModal toggle={toggleCreate} isOpen={isOpenCreate} loadData={() => loadData(id)} />
       <MoveElementModal toggle={toggle} isOpen={openModal} item={currentElement} loadData={() => loadData(id)} />
       <ShareElementModal toggle={toggleShare} isOpen={isOpenShare} item={currentElement} />
@@ -89,8 +113,8 @@ export const RootDir = () => {
           + <FolderOpenIcon />
         </Button>
 
-        <Button className="mx-2">
-          + <FolderIcon />
+        <Button className="mx-2" onClick={toggleFile}>
+          + <FileIcon />
         </Button>
       </div>
       <Folder
@@ -101,6 +125,8 @@ export const RootDir = () => {
         loadData={() => loadData(id)}
         moveElement={moveElement}
         shareElement={shareElement}
+        editFile={editFile}
+        viewFile={viewFile}
       />
     </SmallContainer>
   )

@@ -2,6 +2,7 @@ import { Button } from "reactstrap"
 import { Link } from "react-router-dom"
 import { FolderIcon, HtmlIcon, TxtIcon, PenIcon, CopyIcon, ShareIcon, ArrowsMoveIcon, TrashFillIcon, EyeFillIcon } from "./Icons"
 import { deleteItem, copyItem } from "src/Folder/actions"
+import moment from "moment"
 
 const chooseFileIcon = (extension) => {
   if (extension === "html") return <HtmlIcon className="pe-2" />
@@ -9,7 +10,8 @@ const chooseFileIcon = (extension) => {
   return null
 }
 
-export const Directory = ({ element, isFile = false, to = "", loadData = async () => { }, moveElement = () => { }, shareElement = () => { } }) => {
+export const Directory = ({ element, isFile = false, to = "", loadData = async () => { }, moveElement = () => { }, shareElement = () => { }, editFile = () => { },
+  viewFile = () => { }, isShared }) => {
 
   return (
     <div className="d-flex align-items-center justify-content-between" role="button">
@@ -26,18 +28,31 @@ export const Directory = ({ element, isFile = false, to = "", loadData = async (
         )}
 
       </h5>
+      {/* Information */}
+      {isShared ? (
+        <div className="d-flex flex-column">
+          <small className="m-0 mb-1">
+            {element.sharedBy}
+          </small>
+          <small className="m-0 mb-1">
+            {moment(element.createdAt).format('LLL')}
+          </small>
+        </div>
+      ) : null}
       {/* Actions */}
       <div>
         {isFile ? (
           <>
             {element.is_shared || element.is_trash ? (
               <Button color="link" onClick={(e) => {
+                viewFile(element)
                 e.stopPropagation();
               }}><EyeFillIcon />
               </Button>
             ) : (
               <>
                 <Button color="link" onClick={(e) => {
+                  editFile(element)
                   e.stopPropagation();
                 }}><PenIcon /></Button>
                 <Button color="link" onClick={(e) => {

@@ -14,6 +14,7 @@
     "@feathersjs/authentication-client": "^5.0.11",
     "@feathersjs/rest-client": "^5.0.11",
     "@reduxjs/toolkit": "^1.9.6",
+    "@uiw/codemirror-extensions-langs": "^4.21.20",
     "@uiw/react-codemirror": "^4.21.20",
     "bootstrap": "^5.3.2",
     "bootstrap-icons": "^1.11.1",

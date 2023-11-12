@@ -4,6 +4,7 @@ import { SmallContainer } from "src/components/Container";
 import { Folder } from "./Folder";
 import { directoryService, fileService } from "src/config/apiClient";
 import { TrashFillIcon } from "src/components/Icons";
+import { FileFormModal } from "./Components/FileForm";
 
 
 export const TrashDir = () => {
@@ -11,6 +12,17 @@ export const TrashDir = () => {
   const [items, setItems] = useState([]);
   const [dirData, setDirData] = useState({});
   const [loading, setLoading] = useState(false);
+
+
+  const [currentElement, setCurrentElement] = useState({})
+
+  const [isOpenViewFile, setIsOpenViewFile] = useState(false);
+  const toggleViewFile = () => setIsOpenViewFile(value => !value)
+
+  const viewFile = (element) => {
+    setIsOpenViewFile(true)
+    setCurrentElement(element)
+  }
 
   useEffect(() => {
     (async () => {
@@ -56,7 +68,8 @@ export const TrashDir = () => {
   return (
     <SmallContainer loading={loading} className="my-5">
       <h2>Papelera <TrashFillIcon /></h2>
-      <Folder items={items} basePath="/folder/trash" previous={dirData.parent_id} parentId={id} />
+      <FileFormModal toggle={toggleViewFile} isOpen={isOpenViewFile} id={currentElement._id} view={true} />
+      <Folder items={items} basePath="/folder/trash" previous={dirData.parent_id} parentId={id} viewFile={viewFile} />
     </SmallContainer>
   )
 }
