@@ -4,6 +4,7 @@ import { useUser } from "src/utils/useUser";
 import { LogOutButton } from "src/users/Logout";
 import { Trees } from "src/Trees/Trees";
 import logo from "src/assets/logo.png";
+import { UsersIcon } from "./Icons";
 
 export const NavBar = () => {
   const user = useUser();
@@ -27,6 +28,11 @@ export const NavBar = () => {
           {user ? `${user.is_admin ? "(Administrador)" : ""}` : ""}
         </p>
       </div>
+
+      <NavLink to="/usuarios" className="ps-2 me-auto">
+        <UsersIcon />
+        Usuarios
+      </NavLink>
       <Trees />
       <LogOutButton />
     </Navbar>

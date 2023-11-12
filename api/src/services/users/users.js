@@ -55,7 +55,6 @@ export const user = (app) => {
       patch: [
         schemaHooks.validateData(userPatchValidator),
         schemaHooks.resolveData(userPatchResolver),
-        uniqueEmail()
       ],
       remove: []
     },

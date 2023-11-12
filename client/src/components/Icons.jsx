@@ -17,3 +17,4 @@ export const HtmlIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-filetyp
 export const TxtIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-filetype-txt" className={className} />)
 export const EyeFillIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-eye-fill" className={className} />)
 export const FileIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-file-earmark" className={className} />)
+export const UsersIcon = ({ className = "" }) => (<BaseIcon iconClass="bi-people-fill" className={className} />)

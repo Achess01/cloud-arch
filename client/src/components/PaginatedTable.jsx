@@ -11,14 +11,14 @@ const PaginatedTable = ({
   data,
   currentPage,
   pageSize = 10,
-  fetchData = () => {},
+  fetchData = () => { },
   fields,
   actions = false,
   onEdit = null,
   onDelete = null,
 }) => {
-  const results = data.results ?? [];
-  const count = data.count ?? 0;
+  const results = data.data ?? [];
+  const count = data.total ?? 0;
   const totalPages = Math.ceil(count / pageSize);
 
   return (
@@ -34,38 +34,38 @@ const PaginatedTable = ({
         <tbody>
           {results
             ? results.map((item, index) => (
-                <tr key={index}>
-                  {fields.map((field, index) => (
-                    <td key={index}>{item[field.key]}</td>
-                  ))}
-                  {actions ? (
-                    <td style={{ width: "20%" }}>
-                      <div className="d-flex align-items-centers justify-content-center">
-                        {onEdit ? (
-                          <Button
-                            size="sm"
-                            color="dark"
-                            className="me-2"
-                            onClick={() => onEdit(item.id)}
-                          >
-                            <i className="bi bi-pencil-square" />
-                          </Button>
-                        ) : null}
-                        {onDelete ? (
-                          <Button
-                            size="sm"
-                            color="danger"
-                            className="me-2"
-                            onClick={() => onDelete(item.id)}
-                          >
-                            <i className="bi bi-trash3-fill" />
-                          </Button>
-                        ) : null}
-                      </div>
-                    </td>
-                  ) : null}
-                </tr>
-              ))
+              <tr key={index}>
+                {fields.map((field, index) => (
+                  <td key={index}>{item[field.key]}</td>
+                ))}
+                {actions ? (
+                  <td style={{ width: "20%" }}>
+                    <div className="d-flex align-items-centers justify-content-center">
+                      {onEdit ? (
+                        <Button
+                          size="sm"
+                          color="dark"
+                          className="me-2"
+                          onClick={() => onEdit(item._id)}
+                        >
+                          <i className="bi bi-pencil-square" />
+                        </Button>
+                      ) : null}
+                      {onDelete ? (
+                        <Button
+                          size="sm"
+                          color="danger"
+                          className="me-2"
+                          onClick={() => onDelete(item._id)}
+                        >
+                          <i className="bi bi-trash3-fill" />
+                        </Button>
+                      ) : null}
+                    </div>
+                  </td>
+                ) : null}
+              </tr>
+            ))
             : null}
         </tbody>
       </Table>

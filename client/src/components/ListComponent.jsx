@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import PaginatedTable from "src/components/PaginatedTable";
 import Swal from "sweetalert2";
 import { SmallContainer } from "src/components/Container";
-import { useUser } from "src/utils/useUser";
 
 const handleError = (error, title) => {
   if (error.response) {
@@ -29,12 +28,12 @@ export const ListComponent = ({
   fields = [],
   urlEdit = "",
   urlCreate = "",
-  getData = async () => {},
+  getData = async () => { },
   deleteItem = null,
   transformResults = (data) => data,
 }) => {
   const navigate = useNavigate();
-  const user = useUser();
+
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { data, loading, page } = state;
@@ -49,8 +48,8 @@ export const ListComponent = ({
   const fetchData = async (page = 1) => {
     try {
       onLoading();
-      const response = await getData({ token: user.token, page });
-      response.results = transformResults(response.results);
+      const response = await getData(page);
+      response.data = transformResults(response.data);
       onSetData(response);
       onSetPage(page);
     } catch (error) {
@@ -76,7 +75,7 @@ export const ListComponent = ({
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await deleteItem({ id, token: user.token });
+          await deleteItem(id);
           Swal.fire({
             icon: "success",
             title: "Eliminado con éxito",
@@ -119,7 +118,7 @@ export const ListComponent = ({
 
 const initialState = {
   data: {
-    results: [],
+    data: [],
   },
   loading: false,
   page: 1,

@@ -5,7 +5,7 @@ import { Login, Home } from "src/users";
 import { RootDir } from "src/Folder/RootDir";
 import { SharedDir } from "src/Folder/SharedDir";
 import { TrashDir } from "src/Folder/TrashDir";
-
+import { FormUsers, ListUsers } from "src/users";
 
 import { useUser } from "src/utils/useUser";
 
@@ -30,6 +30,12 @@ export const AppRoutes = () => {
         <Route element={<TrashDir />} path="/folder/trash/" exact />
         <Route element={<TrashDir />} path="/folder/trash/:id" exact />
         <Route element={<SharedDir />} path="/folder/shared/" exact />
+      </Route>
+
+      <Route element={<PrivateRoutes admin />} >
+        <Route element={<FormUsers />} path="/usuarios/nuevo" exact />
+        <Route element={<FormUsers />} path="/usuarios/:id" exact />
+        <Route element={<ListUsers />} path="/usuarios/" exact />
       </Route>
     </Routes>
   );
