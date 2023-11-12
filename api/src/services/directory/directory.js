@@ -20,7 +20,7 @@ import { populateDirectoryPath } from '../../hooks/populate-directory-path.js'
 import { filterByUser } from '../../hooks/filter-by-user.js'
 
 export const directoryPath = 'directory'
-export const directoryMethods = ['find', 'get', 'create', 'patch', 'remove']
+export const directoryMethods = ['find', 'get', 'create', 'patch', 'remove', 'update']
 
 export * from './directory.class.js'
 export * from './directory.schema.js'

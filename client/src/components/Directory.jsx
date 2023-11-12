@@ -1,6 +1,7 @@
 import { Button } from "reactstrap"
 import { Link } from "react-router-dom"
 import { FolderIcon, HtmlIcon, TxtIcon, PenIcon, CopyIcon, ShareIcon, ArrowsMoveIcon, TrashFillIcon, EyeFillIcon } from "./Icons"
+import { deleteItem } from "src/Folder/actions"
 
 const chooseFileIcon = (extension) => {
   if (extension === "html") return <HtmlIcon className="pe-2" />
@@ -8,7 +9,8 @@ const chooseFileIcon = (extension) => {
   return null
 }
 
-export const Directory = ({ element, isFile = false, to = "" }) => {
+export const Directory = ({ element, isFile = false, to = "", loadData = async () => { }, moveElement = () => { } }) => {
+
   return (
     <div className="d-flex align-items-center justify-content-between" role="button">
       <h5 className="user-select-none">
@@ -54,6 +56,7 @@ export const Directory = ({ element, isFile = false, to = "" }) => {
               e.stopPropagation();
             }}><CopyIcon /></Button>
             <Button color="link" onClick={(e) => {
+              moveElement(element)
               e.stopPropagation();
             }}><ArrowsMoveIcon /></Button>
           </>
@@ -62,6 +65,7 @@ export const Directory = ({ element, isFile = false, to = "" }) => {
         {!element.is_trash ? (
           <Button color="link" onClick={(e) => {
             e.stopPropagation();
+            deleteItem(element, loadData)
           }}><TrashFillIcon /></Button>
         ) : null}
 

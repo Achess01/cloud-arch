@@ -19,7 +19,7 @@ import { validateExtensions } from '../../hooks/validate-extensions.js'
 import { checkSharedTrash } from '../../hooks/check-shared-trash.js'
 
 export const filePath = 'file'
-export const fileMethods = ['find', 'get', 'create', 'patch', 'remove']
+export const fileMethods = ['find', 'get', 'create', 'patch', 'remove', 'update']
 
 export * from './file.class.js'
 export * from './file.schema.js'
@@ -45,7 +45,7 @@ export const file = (app) => {
     before: {
       all: [schemaHooks.validateQuery(fileQueryValidator), schemaHooks.resolveQuery(fileQueryResolver)],
       find: [],
-      get: [checkSharedTrash()],
+      get: [],
       create: [
         schemaHooks.validateData(fileDataValidator),
         schemaHooks.resolveData(fileDataResolver),
@@ -56,7 +56,8 @@ export const file = (app) => {
         schemaHooks.validateData(filePatchValidator),
         schemaHooks.resolveData(filePatchResolver),
         validateExtensions(),
-        checkDirectoryName({ isFile: true })
+        checkDirectoryName({ isFile: true }),
+        checkSharedTrash()
       ],
       remove: []
     },

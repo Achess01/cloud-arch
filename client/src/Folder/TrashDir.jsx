@@ -20,11 +20,14 @@ export const TrashDir = () => {
         const resultDir = id ? await directoryService.get(id) : {}
         setDirData(resultDir)
 
+        const parentIdQuery = {}
+        parentIdQuery.parent_id = id ?? { $exists: false }
+
         const resultDirectories = await directoryService.find({
           query: {
             $limit: 50,
             is_trash: true,
-            parent_id: id ?? { $exists: false },
+            ...parentIdQuery,
             $sort: {
               name: 1
             }
@@ -35,7 +38,7 @@ export const TrashDir = () => {
           query: {
             $limit: 50,
             is_trash: true,
-            parent_id: id ?? { $exists: false },
+            ...parentIdQuery,
             $sort: {
               name: 1
             }

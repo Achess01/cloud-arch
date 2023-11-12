@@ -2,7 +2,7 @@ import { Card, ListGroup, ListGroupItem } from "reactstrap"
 import { Link } from "react-router-dom"
 import { Directory } from "src/components/Directory"
 
-export const Folder = ({ items = [], basePath = "", parentId = undefined, previous = undefined }) => {
+export const Folder = ({ items = [], basePath = "", parentId = undefined, previous = undefined, loadData = () => { }, moveElement = () => { } }) => {
   return (
     <Card
       className="w-100 my-3"
@@ -18,7 +18,7 @@ export const Folder = ({ items = [], basePath = "", parentId = undefined, previo
 
         {items.map((item) => (
           <ListGroupItem key={item._id}>
-            <Directory element={item} isFile={item.isFile} to={`${basePath}/${item._id}`} />
+            <Directory element={item} isFile={item.isFile} to={`${basePath}/${item._id}`} loadData={loadData} moveElement={moveElement} />
           </ListGroupItem>
         ))}
       </ListGroup>

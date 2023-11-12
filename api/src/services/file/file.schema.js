@@ -22,7 +22,7 @@ export const fileSchema = Type.Object(
     shared_by: Type.Optional(ObjectIdSchema()),
     shared_at: Type.Optional(Type.Number())
   },
-  { $id: 'File', additionalProperties: false }
+  { $id: 'File', additionalProperties: true }
 )
 export const fileValidator = getValidator(fileSchema, dataValidator)
 export const fileResolver = resolve({})
@@ -57,10 +57,10 @@ export const fileDataResolver = resolve({
     return Date.now()
   },
   is_trash: setDefault(false),
-  owner: virtual(async (_message, context) => {
+  owner: virtual(async (items, context) => {
+    const { owner } = items
     const user = { ...context.params.user }
-    delete user.password
-    return user._id
+    return owner ?? user._id
   })
 })
 
@@ -93,7 +93,12 @@ export const fileQuerySchema = Type.Intersect(
       }
     }),
     // Add additional query properties here
-    Type.Object({}, { additionalProperties: false })
+    Type.Object(
+      {
+        keepParent: Type.Optional(Type.Boolean())
+      },
+      { additionalProperties: false }
+    )
   ],
   { additionalProperties: false }
 )

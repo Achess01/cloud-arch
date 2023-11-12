@@ -33,7 +33,10 @@ export const checkParentId =
 
     if (JSON.stringify(parent_id) === JSON.stringify(instance.parent_id)) return context
 
-    if (await isCurrentChild({ service, newParentId: parent_id, currentId: id }))
+    if (
+      JSON.stringify(parent_id) === JSON.stringify(instance._id) ||
+      (await isCurrentChild({ service, newParentId: parent_id, currentId: id }))
+    )
       throw new BadRequest('No se puede mover el directorio a esta dirección')
 
     return context

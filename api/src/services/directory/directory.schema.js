@@ -16,7 +16,7 @@ export const directorySchema = Type.Object(
     owner: Type.Optional(ObjectIdSchema()),
     parent_id: Type.Optional(ObjectIdSchema())
   },
-  { $id: 'Directory', additionalProperties: false }
+  { $id: 'Directory', additionalProperties: true }
 )
 export const directoryValidator = getValidator(directorySchema, dataValidator)
 export const directoryResolver = resolve({})
@@ -74,7 +74,12 @@ export const directoryQuerySchema = Type.Intersect(
       }
     }),
     // Add additional query properties here
-    Type.Object({}, { additionalProperties: false })
+    Type.Object(
+      {
+        keepParent: Type.Optional(Type.Boolean())
+      },
+      { additionalProperties: false }
+    )
   ],
   { additionalProperties: false }
 )

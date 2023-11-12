@@ -4,7 +4,13 @@ import { Button } from "reactstrap";
 import { useNavigate } from "react-router";
 
 
-export function DirectoryTreeView({ loadChildren = async () => { }, name = "", classNameContainer, path = "/" }) {
+export function DirectoryTreeView({
+  loadChildren = async () => { },
+  name = "", classNameContainer,
+  path = "/",
+  isMove = false,
+  moveElement = () => { }
+}) {
 
   const navigate = useNavigate();
 
@@ -98,12 +104,23 @@ export function DirectoryTreeView({ loadChildren = async () => { }, name = "", c
                   <FileIcon extension={"html"} />
                 )}
                 {element.name}
-                <Button color="link" onClick={(e) => {
-                  const fullPath = element.id !== -1 ? `${path}/${element.id}` : path
-                  navigate(fullPath)
-                  e.stopPropagation();
-                }}><i className="bi bi-box-arrow-in-up-right" /></Button>
-
+                {isMove ? (
+                  <Button
+                    color="link"
+                    onClick={(e) => {
+                      moveElement(element.id === -1 ? null : element.id)
+                      e.stopPropagation();
+                    }}>
+                    <i className="bi bi-check2-square" />
+                    Mover
+                  </Button>
+                ) : (
+                  <Button color="link" onClick={(e) => {
+                    const fullPath = element.id !== -1 ? `${path}/${element.id}` : path
+                    navigate(fullPath)
+                    e.stopPropagation();
+                  }}><i className="bi bi-box-arrow-in-up-right" /></Button>
+                )}
 
               </div>
             )

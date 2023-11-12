@@ -7,7 +7,7 @@ export const checkSharedTrash =
     const { id, service } = context
     const instance = await service.get(id)
 
-    if (instance.is_share || instance.is_trash) throw new BadRequest('No se puede editar este archivo')
+    if (instance.is_shared || instance.is_trash) throw new BadRequest('No se puede editar este archivo')
 
     return context
   }
